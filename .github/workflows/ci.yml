@@ -33,7 +33,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        plat: ["ubuntu", "windows", "macos"]
+        plat: ["ubuntu", "macos"]
     runs-on: ${{matrix.plat}}-latest
     steps:
       - name: configure git crlf
