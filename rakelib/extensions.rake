@@ -211,12 +211,12 @@ CrossRuby = Struct.new(:version, :platform) do
   end
 end
 
-CROSS_RUBIES = File.read(".cross_rubies").split("\n").filter_map do |line|
+CROSS_RUBIES = File.read(".cross_rubies").split("\n").map do |line|
   case line
   when /\A([^#]+):([^#]+)/
     CrossRuby.new(Regexp.last_match(1), Regexp.last_match(2))
   end
-end
+end.compact
 
 ENV["RUBY_CC_VERSION"] = CROSS_RUBIES.map(&:ver).uniq.join(":")
 
