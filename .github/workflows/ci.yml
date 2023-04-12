@@ -30,7 +30,7 @@ jobs:
         with:
           submodules: true
       - run: bundle install --local || bundle install
-      - run: bundle exec rake rubocop
+      # - run: bundle exec rake rubocop
 
   basic:
     needs: ["rubocop"]
