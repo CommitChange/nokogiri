@@ -16,6 +16,7 @@ jobs:
       - uses: ruby/setup-ruby@v1
         with:
           ruby-version: '3.0'
+      - uses: masa-iwasaki/setup-rbenv@v1 # build-gems uses rbenv so we need it
       - run: scripts/build-gems
   # linux:
   #   needs: ["basic"]
