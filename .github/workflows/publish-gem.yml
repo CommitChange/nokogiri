@@ -18,7 +18,9 @@ jobs:
           ruby-version: '3.0'
       - run: |
           git clone https://github.com/rbenv/rbenv.git ~/.rbenv
-          
+      - name: "Install dev packages"
+        run: |
+          sudo apt-get install libxml2-dev libxml2 libxslt1-dev libxslt1.1 zlib1g zlib1g-dev libc6-dev -yq
       - run: |
           eval "$(~/.rbenv/bin/rbenv init - bash)"
           scripts/build-gems
