@@ -16,7 +16,7 @@ jobs:
         with:
           submodules: true
       - run: bundle install --local || bundle install
-      - run: scripts/build_gems
+      - run: scripts/build-gems
   # linux:
   #   needs: ["basic"]
   #   strategy:
