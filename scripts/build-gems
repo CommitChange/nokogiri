@@ -22,17 +22,17 @@ bundle exec rake gem
 cp -v pkg/nokogiri*.gem gems
 
 # jruby
-bundle exec rake clean clobber
-bundle exec rake gem:jruby
-cp -v pkg/nokogiri-*java*.gem gems
+# bundle exec rake clean clobber
+# bundle exec rake gem:jruby
+# cp -v pkg/nokogiri-*java*.gem gems
 
 # precompiled native gems ("fat binary")
 bundle update
 bundle package
 
-bundle exec rake clean clobber
-bundle exec rake gem:windows
-cp -v pkg/nokogiri-*mingw*.gem gems
+# bundle exec rake clean clobber
+# bundle exec rake gem:windows
+# cp -v pkg/nokogiri-*mingw*.gem gems
 
 bundle exec rake clean clobber
 bundle exec rake gem:linux
