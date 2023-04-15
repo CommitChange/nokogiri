@@ -9,13 +9,11 @@ jobs:
     strategy:
       fail-fast: false
     runs-on: ubuntu-latest
-    container:
-      image: ghcr.io/sparklemotion/nokogiri-test:ubuntu
     steps:
       - uses: actions/checkout@v1 # v1 because of https://github.com/actions/checkout/issues/334
         with:
           submodules: true
-      - run: bundle install --local || bundle install
+      - uses: ruby/setup-ruby@v1
       - run: scripts/build-gems
   # linux:
   #   needs: ["basic"]
