@@ -1,0 +1,77 @@
+name: publish-gem
+concurrency:
+  group: "${{github.workflow}}-${{github.ref}}"
+  cancel-in-progress: true
+on:
+  workflow_dispatch:
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+    runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/sparklemotion/nokogiri-test:${{matrix.image}}
+    steps:
+      - uses: actions/checkout@v1 # v1 because of https://github.com/actions/checkout/issues/334
+        with:
+          submodules: true
+      - run: bundle install --local || bundle install
+      - run: scripts/build_gems
+  # linux:
+  #   needs: ["basic"]
+  #   strategy:
+  #     fail-fast: false
+  #     matrix:
+  #       sys: ["enable", "disable"]
+  #       ruby: ["2.6"]
+  #   runs-on: ubuntu-latest
+  #   container:
+  #     image: ghcr.io/sparklemotion/nokogiri-test:mri-${{matrix.ruby}}
+  #   steps:
+  #     - uses: actions/checkout@v2
+  #       with:
+  #         submodules: true
+  #     - uses: actions/cache@v2
+  #       if: matrix.sys == 'disable'
+  #       with:
+  #         path: ports
+  #         key: ports-ubuntu-${{hashFiles('dependencies.yml', 'patches/**/*.patch')}}
+  #     - run: bundle install --local || bundle install
+  #     - run: bundle exec rake compile -- --${{matrix.sys}}-system-libraries
+  #     - name: Release Gem
+  #       if: contains(github.ref, 'refs/tags/v')
+  #       uses: cadwallion/publish-rubygems-action@v1.0.0
+  #       env:
+  #         GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+  #         RUBYGEMS_API_KEY: ${{secrets.RUBYGEMS_API_KEY}}
+  #         RELEASE_COMMAND: rake release
+  # osx:
+  #   needs: ["basic"]
+  #   strategy:
+  #     fail-fast: false
+  #     matrix:
+  #       sys: ["enable", "disable"]
+  #       ruby: ["2.6"]
+  #   runs-on: macos-latest
+  #   steps:
+  #     - uses: actions/checkout@v2
+  #       with:
+  #         submodules: true
+  #     - uses: ruby/setup-ruby@v1
+  #       with:
+  #         ruby-version: ${{matrix.ruby}}
+  #         bundler-cache: true
+  #     - uses: actions/cache@v2
+  #       if: matrix.sys == 'disable'
+  #       with:
+  #         path: ports
+  #         key: ports-macos-${{hashFiles('dependencies.yml', 'patches/**/*.patch')}}
+  #     - run: bundle exec rake compile -- --${{matrix.sys}}-system-libraries
+  #     - name: Release Gem
+  #       if: contains(github.ref, 'refs/tags/v')
+  #       uses: cadwallion/publish-rubygems-action@v1.0.0
+  #       env:
+  #         GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+  #         RELEASE_COMMAND: rake release
+    
+  
