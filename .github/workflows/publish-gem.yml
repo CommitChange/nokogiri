@@ -32,7 +32,7 @@ jobs:
 
           cat << EOF > ~/.gem/credentials
           ---
-          :github: Bearer ${{secrets.GITHUB_TOKEN}}
+          :github: Bearer ${{secrets.PACKAGES_DEPLOY_SECRET}}
           EOF
 
           chmod 0600 ~/.gem/credentials
